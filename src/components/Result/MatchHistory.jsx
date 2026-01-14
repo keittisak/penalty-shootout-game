@@ -23,7 +23,7 @@ export const MatchHistory = ({ rounds = [] }) => {
 
   return (
     <div className="bg-gray-900/30 rounded-lg p-4">
-      <p className="text-white/60 text-sm mb-3 text-center">📋 ประวัติการยิง</p>
+      <p className="text-white/60 text-sm mb-3 text-center">📋 Shot History</p>
 
       <div className="space-y-2 max-h-48 overflow-y-auto">
         {rounds.map((round, index) => (

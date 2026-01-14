@@ -17,7 +17,7 @@ export const Timer = ({ timeLeft, isUrgent = false }) => {
       animate={isLow ? { scale: [1, 1.05, 1] } : {}}
       transition={{ duration: 0.5, repeat: isLow ? Infinity : 0 }}
     >
-      <p className="text-white/60 text-sm mb-1">⏱️ เหลือเวลา</p>
+      <p className="text-white/60 text-sm mb-1">⏱️ Time Remaining</p>
       <Motion.p
         className={`
           text-4xl font-bold font-mono

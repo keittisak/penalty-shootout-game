@@ -97,7 +97,7 @@ export const RoundHistory = ({ rounds = [], suddenDeath = false }) => {
   return (
     <div className="bg-gray-800/50 rounded-lg p-3">
       <p className="text-white/50 text-xs text-center mb-2">
-        {suddenDeath ? "⚡ Sudden Death" : "ประวัติการยิง"}
+        {suddenDeath ? "⚡ Sudden Death" : "📋 Shot History"}
       </p>
       <div className="flex items-center justify-center gap-4">
         <div className="text-center">

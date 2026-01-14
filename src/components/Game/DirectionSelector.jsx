@@ -14,7 +14,7 @@ export const DirectionSelector = ({
   const directions = [DIRECTIONS.LEFT, DIRECTIONS.CENTER, DIRECTIONS.RIGHT];
 
   const roleEmoji = role === 'shooter' ? '⚽' : '🧤';
-  const roleText = role === 'shooter' ? 'ยิงไปทาง' : 'โดดรับทาง';
+  const roleText = role === 'shooter' ? 'Shoot towards' : 'Save towards';
 
   return (
     <div className="w-full">
@@ -55,7 +55,7 @@ export const DirectionSelector = ({
           animate={{ opacity: 1 }}
           className="text-center text-green-400 mt-4"
         >
-          ✓ เลือก: {DIRECTION_NAMES[selectedDirection]}
+          ✓ Selected: {DIRECTION_NAMES[selectedDirection]}
         </Motion.p>
       )}
     </div>

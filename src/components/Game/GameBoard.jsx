@@ -189,7 +189,7 @@ export const GameBoard = () => {
 
   // Loading state
   if (loading) {
-    return <FullPageLoading text="กำลังโหลดเกม..." />;
+    return <FullPageLoading text="Loading game..." />;
   }
 
   // Error state
@@ -197,8 +197,8 @@ export const GameBoard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="game-panel p-8 text-center">
-          <p className="text-red-400 text-xl mb-4">❌ {error || "ไม่พบเกม"}</p>
-          <Button onClick={() => navigate("/")}>กลับหน้าหลัก</Button>
+          <p className="text-red-400 text-xl mb-4">❌ {error || "Game not found"}</p>
+          <Button onClick={() => navigate("/")}>BACK TO HOME</Button>
         </div>
       </div>
     );
@@ -206,21 +206,21 @@ export const GameBoard = () => {
 
   // Get role text
   const getRoleText = () => {
-    if (isShooter) return "⚽ คุณเป็นฝ่ายยิง";
-    if (isSaver) return "🧤 คุณเป็นฝ่ายรับ";
+    if (isShooter) return "⚽ YOU ARE SHOOTING";
+    if (isSaver) return "🧤 YOU ARE DEFENDING";
     return "";
   };
 
   // Get phase instruction
   const getPhaseInstruction = () => {
     if (currentPhase === GAME_PHASE.SHOOTING) {
-      return isShooter ? "เลือกทิศทางที่จะยิง!" : "รอฝ่ายยิงเลือกทิศทาง...";
+      return isShooter ? "Choose a direction to shoot!" : "Waiting for shooter...";
     }
     if (currentPhase === GAME_PHASE.SAVING) {
-      return isSaver ? "เลือกทิศทางที่จะโดดรับ!" : "รอฝ่ายรับเลือกทิศทาง...";
+      return isSaver ? "Choose a direction to defend!" : "Waiting for defender...";
     }
     if (currentPhase === GAME_PHASE.RESULT) {
-      return "ผลการยิง!";
+      return "SHOT RESULT!";
     }
     return "";
   };
@@ -311,7 +311,7 @@ export const GameBoard = () => {
               className="w-full"
               size="lg"
             >
-              {isShooter ? "⚽ ยิง!" : "🧤 โดดรับ!"}
+              {isShooter ? "⚽ SHOOT!" : "🧤 DEFEND!"}
             </Button>
           </Motion.div>
         )}
@@ -321,8 +321,8 @@ export const GameBoard = () => {
           isWaiting={!isMyTurnNow && currentPhase !== GAME_PHASE.RESULT}
           message={
             currentPhase === GAME_PHASE.SHOOTING
-              ? "รอฝ่ายยิงเลือก..."
-              : "รอฝ่ายรับเลือก..."
+              ? "Waiting for shooter..."
+              : "Waiting for defender..."
           }
         />
       </Motion.div>

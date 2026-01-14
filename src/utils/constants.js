@@ -32,17 +32,17 @@ export const ROUND_RESULT = {
 
 // Timer durations (milliseconds)
 export const TIMER = {
-  SHOOTING_DURATION: 10000,  // 10 seconds
-  SAVING_DURATION: 10000,    // 10 seconds
-  RESULT_DISPLAY: 3000,      // 3 seconds
-  ROUND_TRANSITION: 2000,    // 2 seconds
+  SHOOTING_DURATION: parseInt(import.meta.env.VITE_GAME_SHOOTING_DURATION || '10000'),
+  SAVING_DURATION: parseInt(import.meta.env.VITE_GAME_SAVING_DURATION || '10000'),
+  RESULT_DISPLAY: parseInt(import.meta.env.VITE_GAME_RESULT_DISPLAY || '3000'),
+  ROUND_TRANSITION: parseInt(import.meta.env.VITE_GAME_ROUND_TRANSITION || '2000'),
 };
 
 // Game settings
 export const GAME_SETTINGS = {
-  TOTAL_ROUNDS: 6,           // 5 per player
-  SHOTS_PER_PLAYER: 3,
-  DISCONNECT_TIMEOUT: 30000,  // 30 seconds
+  TOTAL_ROUNDS: parseInt(import.meta.env.VITE_GAME_TOTAL_ROUNDS || '6'),
+  SHOTS_PER_PLAYER: parseInt(import.meta.env.VITE_GAME_SHOTS_PER_PLAYER || '3'),
+  DISCONNECT_TIMEOUT: parseInt(import.meta.env.VITE_GAME_DISCONNECT_TIMEOUT || '30000'),
 };
 
 // Player keys
@@ -51,11 +51,11 @@ export const PLAYER_KEYS = {
   PLAYER2: 'player2',
 };
 
-// Direction display names (Thai)
+// Direction display names
 export const DIRECTION_NAMES = {
-  [DIRECTIONS.LEFT]: 'ซ้าย',
-  [DIRECTIONS.CENTER]: 'กลาง',
-  [DIRECTIONS.RIGHT]: 'ขวา',
+  [DIRECTIONS.LEFT]: 'LEFT',
+  [DIRECTIONS.CENTER]: 'CENTER',
+  [DIRECTIONS.RIGHT]: 'RIGHT',
 };
 
 // Direction icons/emojis
@@ -67,10 +67,10 @@ export const DIRECTION_ICONS = {
 
 // Result messages
 export const RESULT_MESSAGES = {
-  [ROUND_RESULT.GOAL]: '⚽ GOAL! ยิงเข้า!',
-  [ROUND_RESULT.SAVED]: '🧤 SAVED! เซฟได้!',
-  [ROUND_RESULT.TIMEOUT_GOAL]: '⏰ หมดเวลา - ยิงเข้า!',
-  [ROUND_RESULT.TIMEOUT_SAVED]: '⏰ หมดเวลา - เซฟได้!',
+  [ROUND_RESULT.GOAL]: '⚽ GOAL!',
+  [ROUND_RESULT.SAVED]: '🧤 SAVED!',
+  [ROUND_RESULT.TIMEOUT_GOAL]: '⏰ TIMEOUT - GOAL!',
+  [ROUND_RESULT.TIMEOUT_SAVED]: '⏰ TIMEOUT - SAVED!',
 };
 
 // Game code settings

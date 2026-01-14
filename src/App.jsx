@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GameProvider } from './context/GameContext';
-import { HomePage, AdminPage } from './pages';
+import { HomePage, AdminPage, SpectatorView } from './pages';
 import { CreateGame, JoinGame, WaitingRoom } from './components/Lobby';
 import { GameBoard } from './components/Game';
 import { GameResult } from './components/Result';
@@ -34,6 +34,9 @@ function App() {
             {/* Game */}
             <Route path="/game/:gameId" element={<GameBoard />} />
             
+            {/* Spectator/Watch */}
+            <Route path="/watch/:gameCode" element={<SpectatorView />} />
+            
             {/* Result */}
             <Route path="/result/:gameId" element={<GameResult />} />
             
@@ -45,8 +48,8 @@ function App() {
               <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center text-white">
                   <p className="text-6xl mb-4">🤔</p>
-                  <h1 className="text-2xl mb-2">ไม่พบหน้านี้</h1>
-                  <a href="/" className="text-blue-400 hover:underline">กลับหน้าหลัก</a>
+                  <h1 className="text-2xl mb-2">Page Not Found</h1>
+                  <a href="/" className="text-blue-400 hover:underline">Back to Home</a>
                 </div>
               </div>
             } />
