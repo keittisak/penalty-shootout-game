@@ -164,7 +164,9 @@ export const AdminPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-6 max-w-sm">
-          <p className="text-yellow-400 text-lg mb-2">⚠️ Firebase ยังไม่ได้ตั้งค่า</p>
+          <p className="text-yellow-400 text-lg mb-2">
+            ⚠️ Firebase ยังไม่ได้ตั้งค่า
+          </p>
           <p className="text-white/60 text-sm mb-4">
             กรุณาสร้างไฟล์ .env และใส่ค่า Firebase credentials
           </p>
@@ -399,22 +401,11 @@ export const AdminPage = () => {
                     <td className="p-3">
                       <div className="flex gap-2">
                         <button
-                          onClick={() => navigate(`/game/${game.id}`)}
+                          onClick={() => navigate(`/watch/${game.id}`)}
                           className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs hover:bg-blue-500/30 transition-colors"
                           title="View Game"
                         >
                           👁️
-                        </button>
-                        <button
-                          onClick={() => {
-                            const watchUrl = `${window.location.origin}/watch/${game.code}`;
-                            navigator.clipboard.writeText(watchUrl);
-                            alert("Watch link copied!");
-                          }}
-                          className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs hover:bg-green-500/30 transition-colors"
-                          title="Share Watch Link"
-                        >
-                          🎬
                         </button>
                         <button
                           onClick={() => handleDeleteGame(game.id)}

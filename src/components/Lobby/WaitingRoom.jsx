@@ -39,9 +39,33 @@ export const WaitingRoom = () => {
 
   const copyCode = async () => {
     try {
-      await navigator.clipboard.writeText(gameCode);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      // Try modern Clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(gameCode);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } else {
+        // Fallback for older browsers and mobile devices
+        const textArea = document.createElement("textarea");
+        textArea.value = gameCode;
+        textArea.style.position = "fixed";
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+          document.execCommand("copy");
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+          console.error("Failed to copy with fallback:", err);
+        }
+        
+        document.body.removeChild(textArea);
+      }
     } catch (err) {
       console.error("Failed to copy:", err);
     }

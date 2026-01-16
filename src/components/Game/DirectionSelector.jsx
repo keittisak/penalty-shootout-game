@@ -18,9 +18,9 @@ export const DirectionSelector = ({
 
   return (
     <div className="w-full">
-      <p className="text-white/70 text-center mb-4">
+      {/* <p className="text-white/70 text-center mb-4">
         {roleEmoji} {roleText}:
-      </p>
+      </p> */}
       
       <div className="flex gap-3 justify-center">
         {directions.map((direction, index) => (

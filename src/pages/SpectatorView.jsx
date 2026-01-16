@@ -20,12 +20,28 @@ export const SpectatorView = () => {
   const [gameData, setGameData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [lastNotification, setLastNotification] = useState(null);
+  const [showResult, setShowResult] = useState(false);
+  const [lastRoundResult, setLastRoundResult] = useState(null);
   const [lastProcessedRoundIndex, setLastProcessedRoundIndex] = useState(-1);
 
+  const {
+    player1 = { name: "Player 1", score: 0 },
+    player2 = { name: "Player 2", score: 0 },
+    currentRound,
+    totalRounds,
+    currentPhase,
+    currentShooter,
+    currentSaver,
+    rounds = [],
+  } = gameData || {};
+
+  const lastRound = rounds[rounds.length - 1];
+
   useEffect(() => {
-    console.log(lastNotification);
-  }, [lastNotification]);
+    if (currentPhase === GAME_PHASE.SHOOTING) {
+      setShowResult(false);
+    }
+  }, [currentRound, currentPhase]);
 
   // Subscribe to game updates
   useEffect(() => {
@@ -41,25 +57,17 @@ export const SpectatorView = () => {
       setLoading(false);
       setError("");
 
-      console.log(
-        "xx",
-        data.currentPhase,
-        data.player1?.hasChosen,
-        data.player2?.hasChosen
-      );
-
       if (data.currentPhase === GAME_PHASE.RESULT) {
-        showNotification(data.rounds[data.rounds.length - 1]?.result);
+        setShowResult(true);
       }
 
-      // Show notification only on new rounds with results
-      if (data && data.rounds && data.rounds.length > 0) {
+      // Show ResultAnimation when entering RESULT phase
+      if (data.currentPhase === GAME_PHASE.RESULT && data.rounds.length > 0) {
         const latestRoundIndex = data.rounds.length - 1;
         const latestRound = data.rounds[latestRoundIndex];
 
-        // Only show notification if this is a new round that hasn't been processed
         if (latestRoundIndex > lastProcessedRoundIndex && latestRound.result) {
-          //   showNotification(latestRound.result);
+          setLastRoundResult(latestRound);
           setLastProcessedRoundIndex(latestRoundIndex);
         }
       }
@@ -67,24 +75,6 @@ export const SpectatorView = () => {
 
     return () => unsubscribe?.();
   }, [gameCode, lastProcessedRoundIndex]);
-
-  const showNotification = (result) => {
-    // Check both lowercase and uppercase
-    const normalizedResult = result?.toLowerCase();
-    if (
-      normalizedResult !== ROUND_RESULT.GOAL &&
-      normalizedResult !== ROUND_RESULT.SAVED
-    )
-      return;
-
-    const notification = {
-      id: Date.now(),
-      message:
-        normalizedResult === ROUND_RESULT.GOAL ? "⚽ GOAL!" : "🧤 SAVED!",
-    };
-    setLastNotification(notification);
-    setTimeout(() => setLastNotification(null), 3000);
-  };
 
   // Loading state
   if (loading) {
@@ -108,18 +98,6 @@ export const SpectatorView = () => {
       </div>
     );
   }
-
-  const {
-    player1 = { name: "Player 1", score: 0 },
-    player2 = { name: "Player 2", score: 0 },
-    currentRound,
-    totalRounds,
-    currentPhase,
-    currentShooter,
-    currentSaver,
-    rounds = [],
-  } = gameData || {};
-  const lastRound = rounds[rounds.length - 1];
 
   // Get current shooter/saver names
   const currentShooterName =
@@ -166,23 +144,10 @@ export const SpectatorView = () => {
           </div>
         )}
 
-        {/* Live Notification */}
-        {lastNotification ? (
-          <Motion.div
-            initial={{ y: -100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -100, opacity: 0 }}
-            className="game-panel p-6 my-6 text-center min-h-[180px] flex items-center justify-center bg-green-500/20 border-2 border-green-500"
-          >
-            <p className="font-pixel text-3xl text-green-400">
-              {lastNotification.message}
-            </p>
-          </Motion.div>
-        ) : (
-          //  Current Phase Status
+        {/* Current Phase Status */}
+        {gameData?.status === GAME_STATUS.FINISHED ? null : (
           <Motion.div
             className="game-panel p-6 my-6 text-center min-h-[180px]"
-            //   animate={{ opacity: [0.5, 1] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           >
             <p className="font-pixelMod text-white/70 text-sm mb-2">
@@ -251,62 +216,81 @@ export const SpectatorView = () => {
             )}
           </Motion.div>
         )}
+      </Motion.div>
 
-        {/* Game Status */}
-        <Motion.div className="game-panel p-6 text-center">
-          <p className="font-pixelMod text-white/70 mb-4">
-            {gameData?.status === GAME_STATUS.WAITING
-              ? "⏳ Waiting for Players"
-              : gameData?.status === GAME_STATUS.PLAYING
-              ? "🎮 Game in Progress"
-              : "✓ Game Finished"}
-          </p>
+      {/* Game Status */}
+      <Motion.div className="game-panel w-full max-w-2xl p-6 text-center">
+        <p className="font-pixelMod text-white/70 mb-4">
+          {gameData?.status === GAME_STATUS.WAITING
+            ? "⏳ Waiting for Players"
+            : gameData?.status === GAME_STATUS.PLAYING
+            ? "🎮 Game in Progress"
+            : "✓ Game Finished"}
+        </p>
 
-          {gameData?.status === GAME_STATUS.WAITING && (
+        {gameData?.status === GAME_STATUS.WAITING && (
+          <Motion.div
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, repeat: Infinity }}
+            className="mb-4"
+          >
+            <p className="text-yellow-400 text-lg font-bold">
+              Waiting for second player to join...
+            </p>
+          </Motion.div>
+        )}
+
+        {gameData?.status !== GAME_STATUS.PLAYING &&
+          gameData?.status !== GAME_STATUS.WAITING && (
             <Motion.div
-              initial={{ opacity: 0.5 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, repeat: Infinity }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
               className="mb-4"
             >
-              <p className="text-yellow-400 text-lg font-bold">
-                Waiting for second player to join...
+              <p className="text-2xl font-bold text-yellow-400">
+                {player1.score > player2.score
+                  ? `${player1.name} WINS!`
+                  : player2.score > player1.score
+                  ? `${player2.name} WINS!`
+                  : "DRAW!"}
               </p>
             </Motion.div>
           )}
 
-          {gameData?.status !== GAME_STATUS.PLAYING &&
-            gameData?.status !== GAME_STATUS.WAITING && (
-              <Motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="mb-4"
-              >
-                <p className="text-2xl font-bold text-yellow-400">
-                  {player1.score > player2.score
-                    ? `${player1.name} WINS!`
-                    : player2.score > player1.score
-                    ? `${player2.name} WINS!`
-                    : "DRAW!"}
-                </p>
-              </Motion.div>
-            )}
-
-          <Button
-            onClick={() => navigate("/")}
-            variant="ghost"
-            className="w-full"
-          >
-            ← Back to Lobby
-          </Button>
-        </Motion.div>
-
-        {/* Share Info */}
-        <Motion.div className="text-center mt-8 text-white/40 text-xs">
-          <p>Game Code: {gameCode}</p>
-          <p>Watch URL: {window.location.href}</p>
-        </Motion.div>
+        <Button
+          onClick={() => navigate("/")}
+          variant="ghost"
+          className="w-full"
+        >
+          ← Back to Lobby
+        </Button>
       </Motion.div>
+
+      {/* Share Info */}
+      <Motion.div className="text-center mt-8 text-white/40 text-xs">
+        <p>Game Code: {gameCode}</p>
+        <p>Watch URL: {window.location.href}</p>
+      </Motion.div>
+
+      {/* Result Animation */}
+      <ResultAnimation
+        result={lastRoundResult?.result}
+        shootDirection={
+          DIRECTION_NAMES[lastRoundResult?.shootChoice] ||
+          lastRoundResult?.shootChoice
+        }
+        saveDirection={
+          DIRECTION_NAMES[lastRoundResult?.saveChoice] ||
+          lastRoundResult?.saveChoice
+        }
+        isVisible={showResult}
+        onComplete={() => {
+          setTimeout(() => {
+            setShowResult(false);
+          }, 1500);
+        }}
+      />
     </div>
   );
 };

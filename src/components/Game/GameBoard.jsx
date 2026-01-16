@@ -197,7 +197,9 @@ export const GameBoard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="game-panel p-8 text-center">
-          <p className="text-red-400 text-xl mb-4">❌ {error || "Game not found"}</p>
+          <p className="text-red-400 text-xl mb-4">
+            ❌ {error || "Game not found"}
+          </p>
           <Button onClick={() => navigate("/")}>BACK TO HOME</Button>
         </div>
       </div>
@@ -214,10 +216,14 @@ export const GameBoard = () => {
   // Get phase instruction
   const getPhaseInstruction = () => {
     if (currentPhase === GAME_PHASE.SHOOTING) {
-      return isShooter ? "Choose a direction to shoot!" : "Waiting for shooter...";
+      return isShooter
+        ? "Choose a direction to shoot!"
+        : "Waiting for shooter...";
     }
     if (currentPhase === GAME_PHASE.SAVING) {
-      return isSaver ? "Choose a direction to defend!" : "Waiting for defender...";
+      return isSaver
+        ? "Choose a direction to defend!"
+        : "Waiting for defender...";
     }
     if (currentPhase === GAME_PHASE.RESULT) {
       return "SHOT RESULT!";
@@ -245,7 +251,11 @@ export const GameBoard = () => {
 
       {/* Round History */}
       <div className="max-w-lg mx-auto w-full mb-4">
-        <RoundHistory rounds={rounds} myPlayerKey={detectedPlayerKey} suddenDeath={suddenDeath} />
+        <RoundHistory
+          rounds={rounds}
+          myPlayerKey={detectedPlayerKey}
+          suddenDeath={suddenDeath}
+        />
       </div>
 
       {/* Main Game Area */}
@@ -266,12 +276,12 @@ export const GameBoard = () => {
         </Motion.div>
 
         {/* Timer */}
-        {(currentPhase === GAME_PHASE.SHOOTING ||
+        {/* {(currentPhase === GAME_PHASE.SHOOTING ||
           currentPhase === GAME_PHASE.SAVING) && (
           <div className="mb-4">
             <Timer timeLeft={timeLeft} isUrgent={timeLeftSeconds <= 3} />
           </div>
-        )}
+        )} */}
 
         {/* Goal Post */}
         <div className="mb-6">
@@ -337,7 +347,11 @@ export const GameBoard = () => {
           DIRECTION_NAMES[lastRound?.saveChoice] || lastRound?.saveChoice
         }
         isVisible={showResult}
-        onComplete={() => setShowResult(false)}
+        onComplete={() => {
+          setTimeout(() => {
+            setShowResult(false);
+          }, 1500);
+        }}
       />
     </div>
   );
