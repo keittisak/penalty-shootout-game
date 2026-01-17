@@ -42,14 +42,14 @@ export const GameBoard = () => {
   // Local state to determine playerKey from gameData
   const [detectedPlayerKey, setDetectedPlayerKey] = useState(contextPlayerKey);
 
-  console.log("🎮 GameBoard Debug:", {
-    routeGameId,
-    contextGameId,
-    gameId,
-    contextPlayerKey,
-    detectedPlayerKey,
-    userId,
-  });
+  // console.log("🎮 GameBoard Debug:", {
+  //   routeGameId,
+  //   contextGameId,
+  //   gameId,
+  //   contextPlayerKey,
+  //   detectedPlayerKey,
+  //   userId,
+  // });
 
   // Local state for choices
   const [selectedDirection, setSelectedDirection] = useState(null);
@@ -348,9 +348,11 @@ export const GameBoard = () => {
         }
         isVisible={showResult}
         onComplete={() => {
+          console.log("Result animation complete");
           setTimeout(() => {
             setShowResult(false);
           }, 1500);
+          // setShowResult(false);
         }}
       />
     </div>

@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { subscribeToGame, advanceToNextRound } from '../services/gameService';
-import { commitChoice } from '../services/gameLogic';
-import { generateSecret, isMyTurn, getOpponentKey } from '../utils/helpers';
-import { GAME_PHASE, GAME_STATUS, TIMER } from '../utils/constants';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { subscribeToGame, advanceToNextRound } from "../services/gameService";
+import { commitChoice } from "../services/gameLogic";
+import { generateSecret, isMyTurn, getOpponentKey } from "../utils/helpers";
+import { GAME_PHASE, GAME_STATUS, TIMER } from "../utils/constants";
 
 /**
  * Main game hook for managing game state and actions
@@ -14,7 +14,7 @@ export const useGame = (gameId, myPlayerKey) => {
   const [gameData, setGameData] = useState(null);
   const [loading, setLoading] = useState(() => !!gameId);
   const [error, setError] = useState(null);
-  
+
   // Store choice and secret locally (not in Firebase until needed)
   const [myChoice, setMyChoice] = useState(null);
   const choiceRef = useRef({ choice: null, secret: generateSecret() });
@@ -31,8 +31,8 @@ export const useGame = (gameId, myPlayerKey) => {
         setLoading(false);
         return;
       }
-      
-      console.log('📊 Game Data from Firebase:', data);
+
+      // console.log("📊 Game Data from Firebase:", data);
       setGameData(data);
       setLoading(false);
       setError(null);
@@ -60,7 +60,7 @@ export const useGame = (gameId, myPlayerKey) => {
     if (
       gameData?.currentPhase === GAME_PHASE.RESULT &&
       gameData?.status === GAME_STATUS.PLAYING &&
-      myPlayerKey === 'player1' // Only player1 advances to prevent race condition
+      myPlayerKey === "player1" // Only player1 advances to prevent race condition
     ) {
       const timer = setTimeout(() => {
         advanceToNextRound(gameId).catch(console.error);
@@ -102,22 +102,26 @@ export const useGame = (gameId, myPlayerKey) => {
   const opponentKey = myPlayerKey ? getOpponentKey(myPlayerKey) : null;
   const isShooter = gameData?.currentShooter === myPlayerKey;
   const isSaver = gameData?.currentSaver === myPlayerKey;
-  const isMyTurnNow = gameData ? isMyTurn(myPlayerKey, gameData.currentShooter, gameData.currentPhase) : false;
-  
+  const isMyTurnNow = gameData
+    ? isMyTurn(myPlayerKey, gameData.currentShooter, gameData.currentPhase)
+    : false;
+
   // Debug log
-  console.log('🎮 useGame Debug:', {
-    myPlayerKey,
-    currentShooter: gameData?.currentShooter,
-    currentPhase: gameData?.currentPhase,
-    isShooter,
-    isSaver,
-    isMyTurnNow,
-  });
-  
+  // console.log('🎮 useGame Debug:', {
+  //   myPlayerKey,
+  //   currentShooter: gameData?.currentShooter,
+  //   currentPhase: gameData?.currentPhase,
+  //   isShooter,
+  //   isSaver,
+  //   isMyTurnNow,
+  // });
+
   const myScore = gameData?.[myPlayerKey]?.score ?? 0;
-  const opponentScore = opponentKey ? (gameData?.[opponentKey]?.score ?? 0) : 0;
-  const myName = gameData?.[myPlayerKey]?.name ?? 'Me';
-  const opponentName = opponentKey ? (gameData?.[opponentKey]?.name ?? 'Opponent') : 'Opponent';
+  const opponentScore = opponentKey ? gameData?.[opponentKey]?.score ?? 0 : 0;
+  const myName = gameData?.[myPlayerKey]?.name ?? "Me";
+  const opponentName = opponentKey
+    ? gameData?.[opponentKey]?.name ?? "Opponent"
+    : "Opponent";
 
   return {
     // State
@@ -125,7 +129,7 @@ export const useGame = (gameId, myPlayerKey) => {
     loading,
     error,
     myChoice,
-    
+
     // Player info
     myPlayerKey,
     opponentKey,
@@ -136,7 +140,7 @@ export const useGame = (gameId, myPlayerKey) => {
     opponentScore,
     myName,
     opponentName,
-    
+
     // Game info
     currentRound: gameData?.currentRound ?? 0,
     currentPhase: gameData?.currentPhase ?? null,
@@ -145,7 +149,7 @@ export const useGame = (gameId, myPlayerKey) => {
     suddenDeath: gameData?.suddenDeath ?? false,
     rounds: gameData?.rounds ?? [],
     lastRoundResult: gameData?.lastRoundResult ?? null,
-    
+
     // Actions
     selectDirection,
     getCommitment,
