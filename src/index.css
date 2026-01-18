@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Pixelify+Sans&display=swap');
 @import "tailwindcss";
 
-/* Custom CSS Variables */
+/* ===== FONTS DEFINITION ===== */
+/* Using Google Fonts CDN - no local files needed */
+
+/* ===== CUSTOM CSS VARIABLES ===== */
 :root {
   --color-primary: #3b82f6;
   --color-secondary: #10b981;
@@ -16,6 +20,19 @@ body {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   min-height: 100vh;
   margin: 0;
+}
+
+/* ===== EXPLICIT FONT CLASSES (Using Google Fonts) ===== */
+.font-pixel {
+  font-family: 'Press Start 2P', system-ui, sans-serif !important;
+}
+
+.font-pixelMod {
+  font-family: 'Pixelify Sans', system-ui, sans-serif !important;
+}
+
+.font-retro {
+  font-family: 'VT323', monospace !important;
 }
 
 /* Pixel-like font for game elements */

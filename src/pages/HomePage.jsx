@@ -1,7 +1,7 @@
-import { motion as Motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { useGameContext } from '../context/GameContext';
-import { Button } from '../components/UI';
+import { motion as Motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { useGameContext } from "../context/GameContext";
+import { Button } from "../components/UI";
 
 /**
  * Home Page - Main menu
@@ -21,14 +21,16 @@ export const HomePage = () => {
         <Motion.div
           animate={{ rotate: [0, -10, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="text-8xl mb-4"
+          className="text-8xl mb-12"
         >
           ⚽
         </Motion.div>
-        <h1 className="text-4xl sm:text-5xl font-bold text-white mb-2">
-          Penalty Shootout
+        <h1 className="font-pixel text-4xl sm:text-5xl text-white mb-2">
+          PENALTY SHOOTOUT
         </h1>
-        <p className="text-white/60">เกมยิงจุดโทษ Multiplayer</p>
+        <p className="font-pixelMod text-white/60">
+          Multiplayer Turn-Based Battle
+        </p>
       </Motion.div>
 
       {/* Menu Buttons */}
@@ -39,32 +41,45 @@ export const HomePage = () => {
         className="w-full max-w-xs space-y-4"
       >
         <Button
-          onClick={() => navigate('/create')}
+          onClick={() => navigate("/create")}
           className="w-full"
           size="lg"
           disabled={!isConfigured || authLoading}
         >
-          🎮 สร้างห้องเกม
+          🎮 CREATE GAME
         </Button>
 
         <Button
-          onClick={() => navigate('/join')}
+          onClick={() => navigate("/join")}
           variant="secondary"
           className="w-full"
           size="lg"
           disabled={!isConfigured || authLoading}
         >
-          🎯 เข้าร่วมเกม
+          🎯 JOIN GAME
         </Button>
 
         <Button
-          onClick={() => navigate('/admin')}
+          onClick={() => navigate("/admin")}
           variant="ghost"
           className="w-full"
           size="sm"
         >
-          ⚙️ จัดการห้องเกม
+          ⚙️ MANAGE ROOMS
         </Button>
+
+        {/* Font Showcase Link (Optional) */}
+        {/* <Button
+          onClick={() => {
+            // For now, show an alert. Later we can add a route
+            alert('FontShowcase component available at: src/components/FontShowcase.jsx');
+          }}
+          variant="ghost"
+          className="w-full text-xs"
+          size="sm"
+        >
+          🎨 FONT SHOWCASE
+        </Button> */}
       </Motion.div>
 
       {/* Status indicators */}
@@ -76,26 +91,24 @@ export const HomePage = () => {
       >
         {!isConfigured && (
           <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-4 max-w-sm">
-            <p className="text-yellow-400 text-sm mb-2">⚠️ Firebase ยังไม่ได้ตั้งค่า</p>
+            <p className="text-yellow-400 text-sm mb-2">
+              ⚠️ Firebase Not Configured
+            </p>
             <p className="text-white/60 text-xs">
-              กรุณาสร้างไฟล์ .env และใส่ค่า Firebase credentials
+              Please create .env file with Firebase credentials
             </p>
             <p className="text-white/40 text-xs mt-2">
-              ดูตัวอย่างได้ที่ .env.example
+              See .env.example for reference
             </p>
           </div>
         )}
 
         {isConfigured && authLoading && (
-          <p className="text-white/50 text-sm">
-            🔄 กำลังเชื่อมต่อ...
-          </p>
+          <p className="text-white/50 text-sm">🔄 Connecting...</p>
         )}
 
         {isConfigured && !authLoading && isAuthenticated && (
-          <p className="text-green-400 text-sm">
-            ✓ พร้อมเล่น!
-          </p>
+          <p className="text-green-400 text-sm">✓ Ready to Play!</p>
         )}
       </Motion.div>
 

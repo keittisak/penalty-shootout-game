@@ -19,17 +19,17 @@ export const JoinGame = () => {
 
   const handleJoin = async () => {
     if (!name.trim()) {
-      setError("กรุณาใส่ชื่อของคุณ");
+      setError("Please enter your name");
       return;
     }
 
     if (!gameCode.trim()) {
-      setError("กรุณาใส่รหัสห้อง");
+      setError("Please enter game code");
       return;
     }
 
     if (!isConfigured) {
-      setError("Firebase ยังไม่ได้ตั้งค่า - กรุณาตั้งค่าไฟล์ .env");
+      setError("Firebase not configured - please set up .env file");
       return;
     }
 
@@ -45,7 +45,7 @@ export const JoinGame = () => {
       setGameSession(gameId, playerKey);
       navigate(`/game/${gameId}`);
     } catch (err) {
-      setError(err.message || "ไม่สามารถเข้าร่วมเกมได้");
+      setError(err.message || "Failed to join game");
     } finally {
       setLoading(false);
     }
@@ -63,24 +63,24 @@ export const JoinGame = () => {
       className="game-panel p-8 w-full max-w-md"
     >
       <h2 className="text-2xl font-bold text-white mb-6 text-center">
-        🎯 เข้าร่วมเกม
+        🎯 JOIN GAME
       </h2>
 
       <div className="space-y-4">
         <div>
-          <label className="block text-white/70 text-sm mb-2">ชื่อของคุณ</label>
+          <label className="block text-white/70 text-sm mb-2">Your Name</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="ใส่ชื่อที่ต้องการ..."
+            placeholder="Enter your name..."
             maxLength={20}
             className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-white/70 text-sm mb-2">รหัสห้อง</label>
+          <label className="block text-white/70 text-sm mb-2">Game Code</label>
           <input
             type="text"
             value={gameCode}
@@ -110,7 +110,7 @@ export const JoinGame = () => {
           className="w-full"
           size="lg"
         >
-          🚀 เข้าร่วม
+          🚀 JOIN
         </Button>
 
         <Button
@@ -118,7 +118,7 @@ export const JoinGame = () => {
           onClick={() => navigate("/")}
           className="w-full"
         >
-          ← กลับ
+          ← BACK
         </Button>
       </div>
     </Motion.div>

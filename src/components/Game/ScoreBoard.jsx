@@ -28,7 +28,7 @@ export const ScoreBoard = ({
         >
           <p className="text-white/70 text-sm truncate max-w-24">
             {player1Name || "Player 1"}
-            {myPlayerKey === "player1" && " (คุณ)"}
+            {myPlayerKey === "player1" && " (You)"}
           </p>
           <p className="score-display">{player1Score}</p>
         </Motion.div>
@@ -38,7 +38,7 @@ export const ScoreBoard = ({
           <p className="text-white/50 text-xs">
             {suddenDeath
               ? "⚡ SUDDEN DEATH"
-              : `รอบ ${currentRound}/${totalRounds}`}
+              : `Round ${currentRound}/${totalRounds}`}
           </p>
           <p className="text-white/80 text-2xl font-bold">VS</p>
         </div>
@@ -55,7 +55,7 @@ export const ScoreBoard = ({
         >
           <p className="text-white/70 text-sm truncate max-w-24">
             {player2Name || "Player 2"}
-            {myPlayerKey === "player2" && " (คุณ)"}
+            {myPlayerKey === "player2" && " (You)"}
           </p>
           <p className="score-display">{player2Score}</p>
         </Motion.div>

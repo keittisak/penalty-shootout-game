@@ -39,9 +39,33 @@ export const WaitingRoom = () => {
 
   const copyCode = async () => {
     try {
-      await navigator.clipboard.writeText(gameCode);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      // Try modern Clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(gameCode);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } else {
+        // Fallback for older browsers and mobile devices
+        const textArea = document.createElement("textarea");
+        textArea.value = gameCode;
+        textArea.style.position = "fixed";
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+          document.execCommand("copy");
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+          console.error("Failed to copy with fallback:", err);
+        }
+        
+        document.body.removeChild(textArea);
+      }
     } catch (err) {
       console.error("Failed to copy:", err);
     }
@@ -52,7 +76,7 @@ export const WaitingRoom = () => {
       try {
         await navigator.share({
           title: "Penalty Shootout",
-          text: `เข้าร่วมเกมยิงจุดโทษกับฉัน! รหัส: ${gameCode}`,
+          text: `Join penalty shootout game with me! Code: ${gameCode}`,
           url: window.location.href,
         });
       } catch (err) {
@@ -72,17 +96,17 @@ export const WaitingRoom = () => {
       className="game-panel p-8 w-full max-w-md text-center"
     >
       <h2 className="text-2xl font-bold text-white mb-2">
-        🏟️ รอผู้เล่นคนที่ 2
+        🏟️ Waiting for Player 2
       </h2>
 
-      <p className="text-white/70 mb-6">แชร์รหัสนี้ให้เพื่อนเพื่อเข้าร่วม</p>
+      <p className="text-white/70 mb-6">Share this code with your friend to join</p>
 
       {/* Game Code Display */}
       <Motion.div
         className="bg-gray-900/50 rounded-xl p-6 mb-6"
         whileHover={{ scale: 1.02 }}
       >
-        <p className="text-white/60 text-sm mb-2">รหัสห้อง</p>
+        <p className="text-white/60 text-sm mb-2">Room Code</p>
         <Motion.p
           className="text-4xl font-mono font-bold text-yellow-400 tracking-widest cursor-pointer"
           onClick={copyCode}
@@ -96,14 +120,14 @@ export const WaitingRoom = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-green-400 text-sm mt-2"
           >
-            ✓ คัดลอกแล้ว!
+            ✓ Copied!
           </Motion.p>
         )}
       </Motion.div>
 
       {/* Waiting Animation */}
       <div className="mb-6">
-        <Loading text="กำลังรอผู้เล่น..." />
+        <Loading text="Waiting for player..." />
       </div>
 
       {/* Player Info */}
@@ -115,12 +139,12 @@ export const WaitingRoom = () => {
               <p className="text-white text-sm">
                 {gameData.player1?.name || "Player 1"}
               </p>
-              <p className="text-green-400 text-xs">พร้อม</p>
+              <p className="text-green-400 text-xs">Ready</p>
             </div>
             <p className="text-white/50 text-2xl">VS</p>
             <div className="text-center">
               <p className="text-gray-500 text-2xl">👤</p>
-              <p className="text-gray-500 text-sm">รอเข้าร่วม...</p>
+              <p className="text-gray-500 text-sm">Waiting to join...</p>
             </div>
           </div>
         </div>
@@ -129,7 +153,7 @@ export const WaitingRoom = () => {
       {/* Actions */}
       <div className="space-y-3">
         <Button onClick={shareCode} className="w-full">
-          📤 แชร์รหัส
+          📤 Share Code
         </Button>
 
         <Button
@@ -137,7 +161,7 @@ export const WaitingRoom = () => {
           onClick={() => navigate("/")}
           className="w-full"
         >
-          ← ยกเลิก
+          ← Cancel
         </Button>
       </div>
     </Motion.div>

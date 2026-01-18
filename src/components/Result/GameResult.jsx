@@ -57,15 +57,15 @@ export const GameResult = () => {
   );
 
   if (loading) {
-    return <FullPageLoading text="กำลังโหลดผลเกม..." />;
+    return <FullPageLoading text="Loading game results..." />;
   }
 
   if (!gameData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="game-panel p-8 text-center">
-          <p className="text-red-400 text-xl mb-4">❌ ไม่พบข้อมูลเกม</p>
-          <Button onClick={() => navigate("/")}>กลับหน้าหลัก</Button>
+          <p className="text-red-400 text-xl mb-4">❌ Game data not found</p>
+          <Button onClick={() => navigate("/")}>Back to Home</Button>
         </div>
       </div>
     );
@@ -78,9 +78,9 @@ export const GameResult = () => {
   };
 
   const getResultText = () => {
-    if (isWinner) return "ยินดีด้วย! คุณชนะ!";
-    if (isLoser) return "เสียใจด้วย คุณแพ้";
-    return "เสมอ!";
+    if (isWinner) return "Congratulations! You won!";
+    if (isLoser) return "Sorry, you lost";
+    return "Draw!";
   };
 
   const getResultColor = () => {
@@ -123,7 +123,7 @@ export const GameResult = () => {
           transition={{ delay: 0.4 }}
           className="bg-gray-900/50 rounded-xl p-6 mb-6"
         >
-          <p className="text-white/60 text-sm mb-2">คะแนนสุดท้าย</p>
+          <p className="text-white/60 text-sm mb-2">Final Score</p>
           <div className="flex items-center justify-center gap-4">
             <div className="text-center">
               <p className="text-white/70 text-sm">
@@ -160,9 +160,9 @@ export const GameResult = () => {
           {gameData.endReason && (
             <p className="text-white/50 text-xs mt-4">
               {gameData.endReason === "sudden_death" &&
-                "⚡ จบด้วย Sudden Death"}
-              {gameData.endReason === "normal" && "🎯 จบด้วยเกมปกติ"}
-              {gameData.endReason === "disconnect" && "📴 คู่แข่งออกจากเกม"}
+                "⚡ Ended with Sudden Death"}
+              {gameData.endReason === "normal" && "🎯 Ended with Normal Game"}
+              {gameData.endReason === "disconnect" && "📴 Opponent left the game"}
             </p>
           )}
         </Motion.div>
@@ -185,14 +185,14 @@ export const GameResult = () => {
           className="space-y-3"
         >
           <Button onClick={handlePlayAgain} className="w-full" size="lg">
-            🔄 เล่นใหม่
+            🔄 Play Again
           </Button>
           <Button
             variant="ghost"
             onClick={() => navigate("/")}
             className="w-full"
           >
-            🏠 กลับหน้าหลัก
+            🏠 Back to Home
           </Button>
         </Motion.div>
 

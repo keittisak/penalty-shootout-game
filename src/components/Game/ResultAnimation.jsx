@@ -86,10 +86,10 @@ export const ResultAnimation = ({
             className="bg-gray-800/80 rounded-xl p-4 max-w-xs mx-auto"
           >
             <p className="text-white/70 text-sm">
-              ⚽ ยิงไป: <span className="text-yellow-400 font-bold">{shootDirection}</span>
+              ⚽ Shot Direction: <span className="text-yellow-400 font-bold">{shootDirection}</span>
             </p>
             <p className="text-white/70 text-sm mt-1">
-              🧤 โดดรับ: <span className="text-blue-400 font-bold">{saveDirection}</span>
+              🧤 Save Direction: <span className="text-blue-400 font-bold">{saveDirection}</span>
             </p>
           </Motion.div>
 

@@ -6,7 +6,7 @@ import { Loading } from '../UI';
  */
 export const WaitingOverlay = ({
   isWaiting,
-  message = 'รอผู้เล่นอีกฝั่ง...',
+  message = 'Waiting for opponent...',
   subMessage = '',
 }) => {
   if (!isWaiting) return null;

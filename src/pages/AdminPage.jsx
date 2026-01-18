@@ -64,7 +64,7 @@ export const AdminPage = () => {
   };
 
   const handleDeleteGame = async (gameId) => {
-    if (!confirm("คุณต้องการลบห้องเกมนี้ใช่หรือไม่?")) return;
+    if (!confirm("Are you sure you want to delete this room?")) return;
 
     setDeleting(true);
     try {
@@ -72,7 +72,7 @@ export const AdminPage = () => {
       setSelectedGames((prev) => prev.filter((id) => id !== gameId));
     } catch (error) {
       console.error("Error deleting game:", error);
-      alert("เกิดข้อผิดพลาดในการลบห้องเกม");
+      alert("Error deleting game room");
     } finally {
       setDeleting(false);
     }
@@ -82,7 +82,7 @@ export const AdminPage = () => {
     if (selectedGames.length === 0) return;
     if (
       !confirm(
-        `คุณต้องการลบห้องเกมที่เลือก ${selectedGames.length} ห้องใช่หรือไม่?`
+        `Are you sure you want to delete ${selectedGames.length} selected room(s)?`
       )
     )
       return;
@@ -93,7 +93,7 @@ export const AdminPage = () => {
       setSelectedGames([]);
     } catch (error) {
       console.error("Error deleting games:", error);
-      alert("เกิดข้อผิดพลาดในการลบห้องเกม");
+      alert("Error deleting game rooms");
     } finally {
       setDeleting(false);
     }
@@ -113,15 +113,15 @@ export const AdminPage = () => {
   const getStatusBadge = (status) => {
     const badges = {
       [GAME_STATUS.WAITING]: {
-        text: "รอผู้เล่น",
+        text: "Waiting",
         color: "bg-yellow-500/20 text-yellow-400",
       },
       [GAME_STATUS.PLAYING]: {
-        text: "กำลังเล่น",
+        text: "Playing",
         color: "bg-green-500/20 text-green-400",
       },
       [GAME_STATUS.FINISHED]: {
-        text: "จบแล้ว",
+        text: "Finished",
         color: "bg-gray-500/20 text-gray-400",
       },
     };
@@ -164,7 +164,9 @@ export const AdminPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-6 max-w-sm">
-          <p className="text-yellow-400 text-lg mb-2">⚠️ Firebase ยังไม่ได้ตั้งค่า</p>
+          <p className="text-yellow-400 text-lg mb-2">
+            ⚠️ Firebase ยังไม่ได้ตั้งค่า
+          </p>
           <p className="text-white/60 text-sm mb-4">
             กรุณาสร้างไฟล์ .env และใส่ค่า Firebase credentials
           </p>
@@ -399,9 +401,9 @@ export const AdminPage = () => {
                     <td className="p-3">
                       <div className="flex gap-2">
                         <button
-                          onClick={() => navigate(`/game/${game.id}`)}
+                          onClick={() => navigate(`/watch/${game.id}`)}
                           className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs hover:bg-blue-500/30 transition-colors"
-                          title="ดูเกม"
+                          title="View Game"
                         >
                           👁️
                         </button>
@@ -409,7 +411,7 @@ export const AdminPage = () => {
                           onClick={() => handleDeleteGame(game.id)}
                           disabled={deleting}
                           className="px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs hover:bg-red-500/30 transition-colors disabled:opacity-50"
-                          title="ลบ"
+                          title="Delete"
                         >
                           🗑️
                         </button>
