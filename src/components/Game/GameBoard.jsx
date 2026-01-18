@@ -95,7 +95,12 @@ export const GameBoard = () => {
 
   // Reset selection on new round
   useEffect(() => {
+    console.log("Debug: currentRound or currentPhase changed:", {
+      currentRound,
+      currentPhase,
+    });
     if (currentPhase === GAME_PHASE.SHOOTING) {
+      console.log(`Debug xxx: ${(currentPhase, GAME_PHASE.SHOOTING)}`);
       setSelectedDirection(null);
       setLocalSecret(generateSecret());
       setShowResult(false);
