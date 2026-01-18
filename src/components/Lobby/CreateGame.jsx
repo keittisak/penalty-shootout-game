@@ -31,7 +31,6 @@ export const CreateGame = () => {
     setError("");
 
     try {
-      console.log(name);
       updatePlayerName(name.trim());
       const { gameId, gameCode } = await createGame(name.trim());
       setGameSession(gameId, "player1");

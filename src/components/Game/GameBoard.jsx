@@ -349,10 +349,10 @@ export const GameBoard = () => {
         isVisible={showResult}
         onComplete={() => {
           console.log("Result animation complete");
-          setTimeout(() => {
-            setShowResult(false);
-          }, 1500);
-          // setShowResult(false);
+          // setTimeout(() => {
+          //   setShowResult(false);
+          // }, 1500);
+          setShowResult(false);
         }}
       />
     </div>
